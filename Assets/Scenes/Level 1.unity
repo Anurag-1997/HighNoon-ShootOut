@@ -223,6 +223,8 @@ MonoBehaviour:
   jumpForce: 8.5
   jumpPressed: 0
   isGrounded: 0
+  isGroundedLeft: 0
+  isGroundedRight: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

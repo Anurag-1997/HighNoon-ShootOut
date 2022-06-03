@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpForce = 0.5f;
     [SerializeField] bool jumpPressed;
     [SerializeField] bool isGrounded;
+    [SerializeField] bool isGroundedLeft;
+    [SerializeField] bool isGroundedRight;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] public Rigidbody2D rb2d;
     [SerializeField] float rayDistance = 0.5f;
@@ -61,19 +63,20 @@ public class PlayerMovement : MonoBehaviour
         Vector2 diagonalRight = Vector2.down + Vector2.right;
         jumpPressed = m_actions.Player.Jump.WasPressedThisFrame();
         isGrounded = Physics2D.Raycast(feetPosition.transform.position, Vector2.down, rayDistance, groundLayer.value);
-        isGrounded = Physics2D.Raycast(feetLeftPosition.transform.position, diagonalLeft, rayDistance, groundLayer.value);
-        isGrounded = Physics2D.Raycast(feetRightPosition.transform.position, diagonalRight, rayDistance, groundLayer.value);
+        isGroundedLeft = Physics2D.Raycast(feetLeftPosition.transform.position, diagonalLeft, rayDistance, groundLayer.value);
+        isGroundedRight = Physics2D.Raycast(feetRightPosition.transform.position, diagonalRight, rayDistance, groundLayer.value);
 
         //isGrounded = Physics2D.CircleCast(feetPosition.transform.position, 0.4f, Vector2.down, rayDistance, groundLayer.value);
         Debug.DrawRay(feetPosition.transform.position, Vector2.down * rayDistance);
         Debug.DrawRay(feetLeftPosition.transform.position, diagonalLeft* rayDistance);
         Debug.DrawRay(feetRightPosition.transform.position, diagonalRight * rayDistance);
         
-        if (jumpPressed && isGrounded)
+        if ((jumpPressed && isGrounded) || (jumpPressed && isGroundedLeft) || (jumpPressed && isGroundedRight))
         {
             
             //Debug.Log("JUMPED");
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            playerAnim.SetTrigger("IsJumping");
         }
     }
     //private void OnDrawGizmos()
