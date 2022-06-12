@@ -11,7 +11,11 @@ public class PlayerController: MonoBehaviour
     [SerializeField] string currentState, currentAnimation, previousState;
     MyInputActions myInputAcitons;
     Vector2 moveVector;
-    bool Jumped = false;
+    bool jumped = false;
+    bool isGrounded = false;
+    [SerializeField] float rayDistance = 0.1f;
+    [SerializeField] LayerMask groundMask;
+    [SerializeField] Transform feetPositon;
     [SerializeField] Rigidbody2D rb2d;
     [SerializeField] float moveSpeed,jumpSpeed;
     
@@ -73,7 +77,7 @@ public class PlayerController: MonoBehaviour
         }
         else if(state == "Jumping")
         {
-            SetAnimation(jumping, false, 0.5f);
+            SetAnimation(jumping, false, 1f);
         }
         else
         {
@@ -84,7 +88,9 @@ public class PlayerController: MonoBehaviour
     public void Move()
     {
         moveVector = myInputAcitons.Player.Move.ReadValue<Vector2>();
-        Jumped = myInputAcitons.Player.Jump.WasPressedThisFrame();
+        jumped = myInputAcitons.Player.Jump.WasPressedThisFrame();
+        isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance,groundMask.value);
+        Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
         rb2d.velocity = new Vector2(moveVector.x * moveSpeed, rb2d.velocity.y);
         if(moveVector.x != 0)
         {
@@ -109,7 +115,7 @@ public class PlayerController: MonoBehaviour
 
             }
         }
-        if(Jumped)
+        if(jumped && isGrounded)
         {
             Jump();
         }

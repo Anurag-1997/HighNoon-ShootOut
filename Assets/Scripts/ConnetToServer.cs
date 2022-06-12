@@ -24,10 +24,12 @@ public class ConnetToServer : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(createRoomName.text);
+        PhotonNetwork.LoadLevel("Level 1");
     }
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(joinRoomName.text);
+        PhotonNetwork.LoadLevel("Level 1");
     }
 
 }
