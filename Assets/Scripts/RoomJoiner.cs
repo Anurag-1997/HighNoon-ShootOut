@@ -7,29 +7,24 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ConnetToServer : MonoBehaviourPunCallbacks
+public class RoomJoiner : MonoBehaviourPunCallbacks
 {
-    [SerializeField] InputField createRoomName;
-    [SerializeField] InputField joinRoomName;
-    private void Awake()
-    {
-        PhotonNetwork.ConnectUsingSettings();
-    }
-    public override void OnConnectedToMaster()
-    {
-        base.OnConnectedToMaster();
-        PhotonNetwork.LoadLevel("RoomScene");
-
-    }
+    [SerializeField] TMP_InputField createRoomName;
+    [SerializeField] TMP_InputField joinRoomName;
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(createRoomName.text);
-        PhotonNetwork.LoadLevel("Level 1");
     }
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(joinRoomName.text);
+        
+    }
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
         PhotonNetwork.LoadLevel("Level 1");
+        
     }
 
 }

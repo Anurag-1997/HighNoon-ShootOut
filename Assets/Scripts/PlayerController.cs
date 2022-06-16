@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
 public class PlayerController: MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerController: MonoBehaviour
     [SerializeField] Transform feetPositon;
     [SerializeField] Rigidbody2D rb2d;
     [SerializeField] float moveSpeed,jumpSpeed;
+    PhotonView pview;
     
     
 
@@ -29,16 +31,30 @@ public class PlayerController: MonoBehaviour
     {
         
         rb2d = GetComponent<Rigidbody2D>();
+        pview = GetComponent<PhotonView>();
         currentState = "Idle";
         SetCharacterState(currentState);
     }
     private void Update()
     {
         //Move();
+        if(pview.IsMine)
+        {
+            moveVector = myInputAcitons.Player.Move.ReadValue<Vector2>();
+            jumped = myInputAcitons.Player.Jump.WasPressedThisFrame();
+            isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance, groundMask.value);
+            Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
+        }
+        
+
     }
     private void FixedUpdate()
     {
-        Move();
+        if(pview.IsMine)
+        {
+            Move();
+        }
+        
     }
     private void OnEnable()
     {
@@ -87,10 +103,7 @@ public class PlayerController: MonoBehaviour
     }
     public void Move()
     {
-        moveVector = myInputAcitons.Player.Move.ReadValue<Vector2>();
-        jumped = myInputAcitons.Player.Jump.WasPressedThisFrame();
-        isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance,groundMask.value);
-        Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
+        
         rb2d.velocity = new Vector2(moveVector.x * moveSpeed, rb2d.velocity.y);
         if(moveVector.x != 0)
         {
