@@ -5,7 +5,7 @@ using Spine.Unity;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public class PlayerController: MonoBehaviour
+public class PlayerControllerOld: MonoBehaviour
 {
     [SerializeField] SkeletonAnimation skelelonAnimation;
     [SerializeField] AnimationReferenceAsset idle,walking,jumping;
