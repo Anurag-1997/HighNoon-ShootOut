@@ -153,9 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 8038739485172152705, guid: e0d49f6e4a356614d9ce146bab4d4a1f, type: 3}
-  minX: -17
-  maxX: 17
+  minX1: -15.28
+  maxX1: -8.32
+  minX2: 7.28
+  maxX2: 15.83
   posY: -6.36
+  view: {fileID: 8038739485172152712, guid: e0d49f6e4a356614d9ce146bab4d4a1f, type: 3}
 --- !u!4 &6505031
 Transform:
   m_ObjectHideFlags: 0

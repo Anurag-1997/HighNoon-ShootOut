@@ -53,7 +53,11 @@ public class PlayerController: MonoBehaviour
         if(pview.IsMine)
         {
             Move();
+            pview.RPC("SetCharacterState", RpcTarget.All, currentState);
         }
+        //pview.RPC("Move", RpcTarget.All);
+        //pview.RPC("SetAnimation", RpcTarget.All,idle,);
+        //pview.RPC("AnimationEntry_Complete", RpcTarget.All);
         
     }
     private void OnEnable()
@@ -64,6 +68,7 @@ public class PlayerController: MonoBehaviour
     {
         myInputAcitons.Player.Disable();
     }
+    [PunRPC]
     public void SetAnimation(AnimationReferenceAsset animation,bool loop, float timeScale)
     {
         if(animation.name.Equals(currentAnimation))
@@ -76,6 +81,7 @@ public class PlayerController: MonoBehaviour
         currentAnimation = animation.name;
     }
 
+    [PunRPC]
     private void AnimationEntry_Complete(Spine.TrackEntry trackEntry)
     {
         if(currentState.Equals("Jumping"))
@@ -84,6 +90,7 @@ public class PlayerController: MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void SetCharacterState(string state)
     {
         
@@ -101,6 +108,8 @@ public class PlayerController: MonoBehaviour
         }
         currentState = state;
     }
+
+    [PunRPC]
     public void Move()
     {
         
