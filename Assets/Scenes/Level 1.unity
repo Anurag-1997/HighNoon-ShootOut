@@ -227,7 +227,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 8.76
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 1038708136}
   - component: {fileID: 1038708135}
   - component: {fileID: 1038708134}
+  - component: {fileID: 1038708137}
   m_Layer: 0
   m_Name: Spine Mecanim GameObject (2D_Character_Rust)
   m_TagString: Untagged
@@ -418,7 +419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  jumpForce: 200
+  jumpForce: 10
   anim: {fileID: 1038708130}
 --- !u!61 &1038708135
 BoxCollider2D:
@@ -461,12 +462,25 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 20
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1038708137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038708128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1a5abb26b0c8e44b0e531d535cb278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1038708130}
 --- !u!1 &1084511491
 GameObject:
   m_ObjectHideFlags: 0
