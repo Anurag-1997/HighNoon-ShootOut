@@ -13,12 +13,18 @@ public class NewPlayerController : MonoBehaviour
     [SerializeField] Animator anim;
     Rigidbody2D rb2d;
     PlayerCombat playerCombat;
+    [SerializeField] private bool isGrounded = false;
+    [SerializeField] private Transform feetPositon;
+    [SerializeField] private float rayDistance;
+    [SerializeField] LayerMask groundLayer;
+    public PhotonView pview;
 
     private void Awake()
     {
         m_Actions = new MyInputActions();
         rb2d = GetComponent<Rigidbody2D>();
-        playerCombat = GetComponent<PlayerCombat>();    
+        playerCombat = GetComponent<PlayerCombat>();
+        pview = GetComponent<PhotonView>();
     }
     private void OnEnable()
     {
@@ -62,7 +68,9 @@ public class NewPlayerController : MonoBehaviour
     }
     private void Jump()
     {
-        if(m_Actions.Player.Jump.WasPressedThisFrame())
+        isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance, groundLayer.value);
+        Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
+        if (m_Actions.Player.Jump.WasPressedThisFrame() && isGrounded)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
             anim.SetBool("isJumping", true);
@@ -78,7 +86,10 @@ public class NewPlayerController : MonoBehaviour
     }
     private void Update()
     {
-        Move();
-        Jump();
+        if(pview.IsMine)
+        {
+            Move();
+            Jump();
+        }
     }
 }

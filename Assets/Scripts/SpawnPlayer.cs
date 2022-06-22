@@ -7,7 +7,7 @@ public class SpawnPlayer : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject playerPrefab;
     [SerializeField] float minX1, maxX1,minX2,maxX2, posY;
-    [SerializeField] PhotonView view;
+   
     Vector2 randomPos1,randomPos2;
     // Start is called before the first frame update
     void Start()
