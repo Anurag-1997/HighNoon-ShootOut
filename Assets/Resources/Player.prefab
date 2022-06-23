@@ -275,16 +275,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c8438f1d700a4894f14f4075912cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  jumpForce: 10
   anim: {fileID: 7593587665813221272}
-  isGrounded: 0
-  feetPositon: {fileID: 7593587664299696382}
-  rayDistance: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   pview: {fileID: 0}
+  moveSpeed: 4
+  jumpForce: 10
+  isGrounded: 0
+  jumpPressed: 0
+  feetPositon: {fileID: 7593587664299696382}
+  rayDistance: 0.2
 --- !u!114 &7593587665813221267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,14 +300,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7593587665813221272}
   meleeSwooshAudioClip: {fileID: 8300000, guid: 351234870b714b8429faa90cb10898b5, type: 3}
-  meleeWeaponSeleceted: 0
   pview: {fileID: 0}
-  attackPoint: {fileID: 1505932460}
-  attackRange: 0.5
-  Health: 50
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  meleeWeaponSeleceted: 0
+  attackPoint: {fileID: 1505932460}
+  attackRange: 0.5
+  Health: 50
 --- !u!82 &7593587665813221264
 AudioSource:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] Animator animator;
@@ -10,12 +11,23 @@ public class PlayerCombat : MonoBehaviour
     MyInputActions myInputActions;
     Rigidbody2D rb2d;
     NewPlayerController newPlayerCont;
-    [SerializeField] public bool meleeWeaponSeleceted = false;
     public PhotonView pview;
+    [SerializeField] LayerMask playerLayer;
+    Collider2D[] hitEnemies;
+
+    [SerializeField] public bool meleeWeaponSeleceted = false;
     [SerializeField] Transform attackPoint;
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] int Health = 50;
-    [SerializeField] LayerMask playerLayer;
+    private float animDelay;
+    bool isAttacking = false;
+
+    const string PLAYER_IDLE = "Idle_1";
+    const string PLAYER_IDLE_MELEE = "Idle_Melee";
+    const string PLAYER_WALK_MELEE = "Walk_Melee";
+    const string PLAYER_JUMP_MELEE = "Jump_Melee";
+    const string PLAYER_ATTACK_MELEE = "Attack_Melee";
+    const string PLAYER_DAMAGE_MELEE = "Damage_Melee";
     private void Awake()
     {
         myInputActions = new MyInputActions();
@@ -36,87 +48,89 @@ public class PlayerCombat : MonoBehaviour
     {
         if(pview.IsMine)
         {
-            pview.RPC("meleeAttack", RpcTarget.All);
+            hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer.value);
+            myInputActions.Player.MeleeWeapon.performed += MeleeWeapon_performed;
+            meleeAttack();
+            myInputActions.Player.Jump.started += Jump_started;
+            myInputActions.Player.Fire.performed += Fire_performed;
             
 
         }
         
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void Jump_started(InputAction.CallbackContext obj)
     {
-        if(collision.gameObject.tag=="Player")
+        if(meleeWeaponSeleceted == true)
         {
-            if(meleeWeaponSeleceted)
+            animator.Play(PLAYER_JUMP_MELEE);
+        }
+        
+    }
+
+    private void MeleeWeapon_performed(InputAction.CallbackContext obj)
+    {
+        
+        meleeWeaponSeleceted = !meleeWeaponSeleceted;
+        if(meleeWeaponSeleceted == true)
+        {
+            animator.Play(PLAYER_IDLE_MELEE);
+        }
+        else
+        {
+            animator.Play(PLAYER_IDLE);
+        }
+        
+    }
+
+    private void Fire_performed(InputAction.CallbackContext obj)
+    {
+        if(meleeWeaponSeleceted == true)
+        {
+            
+            if(!isAttacking)
             {
-                if(myInputActions.Player.Fire.WasPressedThisFrame())
-                {
-                    Debug.Log("Player was hit!!!");
-                }
+                
+                animator.Play(PLAYER_ATTACK_MELEE,0,0.5f);
+                animDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+                Invoke("AnimComplete", animDelay);
+                audioSource.PlayOneShot(meleeSwooshAudioClip);
 
             }
+            //foreach (Collider2D enemy in hitEnemies)
+            //{
+            //    if (enemy.transform.root != transform)
+            //    {
+            //        Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().Health);
+            //        enemy.GetComponent<PlayerCombat>().Health -= 1;
+            //        enemy.GetComponent<Animator>().Play(PLAYER_DAMAGE_MELEE);
+            //    }
+            //}
         }
     }
 
-    
-    [PunRPC]
     private void meleeAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer.value);
-        if (myInputActions.Player.MeleeWeapon.WasPressedThisFrame())
-        {
-            meleeWeaponSeleceted = !meleeWeaponSeleceted;
-            animator.SetBool("meleeSeleceted", meleeWeaponSeleceted);
-        }
+        
         if (meleeWeaponSeleceted == true)
         {
             if (rb2d.velocity.x != 0)
             {
-                animator.SetBool("meleeWalking", true);
-                if (rb2d.velocity.x > 0)
-                {
-                    this.transform.localScale = new Vector3(0.3f, 0.3f, 1.0f);
-                }
-                if (rb2d.velocity.x < 0)
-                {
-                    this.transform.localScale = new Vector3(-0.3f, 0.3f, 1.0f);
-                }
+                animator.Play(PLAYER_WALK_MELEE);
+                
             }
             else if (rb2d.velocity.x == 0)
             {
-                animator.SetBool("meleeWalking", false);
+                animator.Play(PLAYER_IDLE_MELEE);
 
             }
-            else if (rb2d.velocity.y != 0)
-            {
-                animator.SetBool("meleeJumping", true);
-            }
-            if (rb2d.velocity.y == 0)
-            {
-                animator.SetBool("meleeJumping", false);
-            }
-            if (myInputActions.Player.Fire.WasPressedThisFrame())
-            {
-                animator.SetBool("meleeAttacking", true);
-                audioSource.PlayOneShot(meleeSwooshAudioClip);
-            }
-            else if (myInputActions.Player.Fire.WasReleasedThisFrame())
-            {
-                animator.SetBool("meleeAttacking", false);
-            }
-            foreach (Collider2D enemy in hitEnemies)   
-            {
-                if (enemy.transform.root != transform)
-                {
-                   if(myInputActions.Player.Fire.WasPressedThisFrame())
-                   {
-                        Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().Health);
-                        enemy.GetComponent<PlayerCombat>().Health -= 1;
-                        enemy.GetComponent<Animator>().SetTrigger("meleeDamage");
-                   }
-                }
-            }
+            
 
         }
+    }
+    private void AnimComplete()
+    {
+        isAttacking = false;
     }
 }
