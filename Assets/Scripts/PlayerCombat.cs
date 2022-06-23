@@ -36,8 +36,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if(pview.IsMine)
         {
-            meleeAttack();
-            pview.RPC("RPC_MeleeDamage", RpcTarget.All);
+            pview.RPC("meleeAttack", RpcTarget.All);
+            
 
         }
         
@@ -58,12 +58,8 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    
     [PunRPC]
-    public void RPC_MeleeDamage()
-    {
-        animator.SetTrigger("meleeDamage");
-    }
-
     private void meleeAttack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer.value);
@@ -116,7 +112,7 @@ public class PlayerCombat : MonoBehaviour
                    {
                         Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().Health);
                         enemy.GetComponent<PlayerCombat>().Health -= 1;
-                        enemy.GetComponent<PlayerCombat>().RPC_MeleeDamage();
+                        enemy.GetComponent<Animator>().SetTrigger("meleeDamage");
                    }
                 }
             }
