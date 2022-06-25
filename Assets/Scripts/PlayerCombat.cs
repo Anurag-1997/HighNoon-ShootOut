@@ -14,14 +14,14 @@ public class PlayerCombat : MonoBehaviour
     NewPlayerController newPlayerCont;
     public PhotonView pview;
     [SerializeField] LayerMask playerLayer;
-    Collider2D[] hitEnemies1;
-    Collider2D[] hitEnemies2;
+    Collider2D[] hitEnemies;
+    //Collider2D[] hitEnemies2;
     
     
 
     [SerializeField] public bool meleeWeaponSeleceted = false;
     [SerializeField] public bool weapon1Selected = false;
-    [SerializeField] Transform attackPoint1,attackPoint2,shoot_Point;
+    [SerializeField] Transform attackPoint1,shoot_Point;
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] float bulletSpeed = 5f;
     [SerializeField] int Health = 50;
@@ -65,8 +65,8 @@ public class PlayerCombat : MonoBehaviour
         if(pview.IsMine)
         {
             pview.RPC("ChangeAnimationState", RpcTarget.All,currentState);
-            hitEnemies1 = Physics2D.OverlapCircleAll(attackPoint1.position, attackRange, playerLayer.value);
-            hitEnemies2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange, playerLayer.value);
+            hitEnemies = Physics2D.OverlapCircleAll(attackPoint1.position, attackRange, playerLayer.value);
+            //hitEnemies2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange, playerLayer.value);
             myInputActions.Player.MeleeWeapon.started += MeleeWeapon_started;
             myInputActions.Player.Weapon1.started += Weapon1_started;
             WalkAnim();
@@ -148,7 +148,7 @@ public class PlayerCombat : MonoBehaviour
                 Invoke("AnimComplete", 1f);
 
 
-                foreach (Collider2D enemy in hitEnemies1)
+                foreach (Collider2D enemy in hitEnemies)
                 {
                    if(transform.localScale.x == 0.3f)
                    {
@@ -160,7 +160,7 @@ public class PlayerCombat : MonoBehaviour
                         }
                    }
                 }
-                foreach (Collider2D enemy in hitEnemies2)
+                foreach (Collider2D enemy in hitEnemies)
                 {
                     if(transform.localScale.x==-0.3f)
                     {
@@ -177,9 +177,19 @@ public class PlayerCombat : MonoBehaviour
         }
         if(weapon1Selected == true)
         {
-            GameObject bulletTemp = PhotonNetwork.Instantiate(bulletPrefab.name, shoot_Point.position, Quaternion.identity);
-            audioSource.PlayOneShot(bulletShootAudioClip);
-            bulletTemp.GetComponent<Rigidbody2D>().velocity = Vector2.right * bulletSpeed;
+            if(rb2d.transform.localScale.x == 0.3f)
+            {
+                GameObject bulletTemp = PhotonNetwork.Instantiate(bulletPrefab.name, shoot_Point.position, Quaternion.identity);
+                audioSource.PlayOneShot(bulletShootAudioClip);
+                bulletTemp.GetComponent<Rigidbody2D>().velocity = Vector2.right * bulletSpeed;
+            }
+            else if(rb2d.transform.localScale.x == -0.3f)
+            {
+                GameObject bulletTemp = PhotonNetwork.Instantiate(bulletPrefab.name, shoot_Point.position, Quaternion.Euler(new Vector3(0,0,180f)));
+                audioSource.PlayOneShot(bulletShootAudioClip);
+                bulletTemp.GetComponent<Rigidbody2D>().velocity = Vector2.left * bulletSpeed;
+            }
+            
         }
     }
 
