@@ -16,7 +16,7 @@ public class NewPlayerController : MonoBehaviour
 
     [SerializeField] float moveSpeed = 1f,jumpForce=1f;
     [SerializeField] private bool isGrounded = false;
-    [SerializeField] bool jumpPressed = false;
+    //[SerializeField] bool jumpPressed = false;
     [SerializeField] private Transform feetPositon;
     [SerializeField] private float rayDistance;
     private float animDelay;
@@ -44,7 +44,8 @@ public class NewPlayerController : MonoBehaviour
         m_Actions.Player.Disable();
     }
 
-    public void ChangeAnimationState(string newState)
+    [PunRPC]
+    public void ChangeAnimState(string newState)
     {
         if (currentState == newState) return;
 
@@ -65,15 +66,15 @@ public class NewPlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(0.3f, 0.3f, 1);
         }
-        if(isGrounded && !playerCombat.meleeWeaponSeleceted)
+        if(isGrounded && !playerCombat.meleeWeaponSeleceted && !playerCombat.weapon1Selected)
         { 
             if(moveVector.x != 0)
             {
-                ChangeAnimationState(PLAYER_WALK);  
+                ChangeAnimState(PLAYER_WALK);  
             }
             else
             {
-                ChangeAnimationState(PLAYER_IDLE);
+                ChangeAnimState(PLAYER_IDLE);
             }
         }
 
@@ -86,6 +87,7 @@ public class NewPlayerController : MonoBehaviour
     {
         if(pview.IsMine)
         {
+            pview.RPC("ChangeAnimState", RpcTarget.All, currentState);
             isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance, groundLayer.value);
             Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
             Move();
@@ -102,9 +104,9 @@ public class NewPlayerController : MonoBehaviour
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
 
-            if(!playerCombat.meleeWeaponSeleceted)
+            if(!playerCombat.meleeWeaponSeleceted && !playerCombat.weapon1Selected)
             {
-                ChangeAnimationState(PLAYER_JUMP);
+                ChangeAnimState(PLAYER_JUMP);
             }
 
             

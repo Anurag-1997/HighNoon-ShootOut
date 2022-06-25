@@ -47,6 +47,9 @@ MonoBehaviour:
   - MeleeDamage
   - RPC_MeleeDamage
   - meleeAttack
+  - WalkAnim
+  - ChangeAnimationState
+  - ChangeAnimState
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
