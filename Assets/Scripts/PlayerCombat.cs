@@ -24,7 +24,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] Transform attackPoint1,shoot_Point;
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] float bulletSpeed = 5f;
-    [SerializeField] int Health = 50;
+    [SerializeField] public int Health = 50;
     [SerializeField] GameObject bulletPrefab;
     private float animDelay;
     bool isAttacking = false;
@@ -182,12 +182,17 @@ public class PlayerCombat : MonoBehaviour
                 GameObject bulletTemp = PhotonNetwork.Instantiate(bulletPrefab.name, shoot_Point.position, Quaternion.identity);
                 audioSource.PlayOneShot(bulletShootAudioClip);
                 bulletTemp.GetComponent<Rigidbody2D>().velocity = Vector2.right * bulletSpeed;
+
+                
+
             }
             else if(rb2d.transform.localScale.x == -0.3f)
             {
                 GameObject bulletTemp = PhotonNetwork.Instantiate(bulletPrefab.name, shoot_Point.position, Quaternion.Euler(new Vector3(0,0,180f)));
                 audioSource.PlayOneShot(bulletShootAudioClip);
                 bulletTemp.GetComponent<Rigidbody2D>().velocity = Vector2.left * bulletSpeed;
+                
+
             }
             
         }
