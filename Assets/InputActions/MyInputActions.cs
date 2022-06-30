@@ -98,6 +98,15 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponWheelButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""45870136-511a-47c7-82d0-d44638afdd42"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""MeleeWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d65fbb60-bb31-49d8-a0c9-e81d29517b5d"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponWheelButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -265,6 +285,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         m_Player_Weapon3 = m_Player.FindAction("Weapon 3", throwIfNotFound: true);
         m_Player_Weapon4 = m_Player.FindAction("Weapon 4", throwIfNotFound: true);
         m_Player_MeleeWeapon = m_Player.FindAction("MeleeWeapon", throwIfNotFound: true);
+        m_Player_WeaponWheelButton = m_Player.FindAction("WeaponWheelButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -332,6 +353,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Weapon3;
     private readonly InputAction m_Player_Weapon4;
     private readonly InputAction m_Player_MeleeWeapon;
+    private readonly InputAction m_Player_WeaponWheelButton;
     public struct PlayerActions
     {
         private @MyInputActions m_Wrapper;
@@ -344,6 +366,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         public InputAction @Weapon3 => m_Wrapper.m_Player_Weapon3;
         public InputAction @Weapon4 => m_Wrapper.m_Player_Weapon4;
         public InputAction @MeleeWeapon => m_Wrapper.m_Player_MeleeWeapon;
+        public InputAction @WeaponWheelButton => m_Wrapper.m_Player_WeaponWheelButton;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -377,6 +400,9 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                 @MeleeWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMeleeWeapon;
                 @MeleeWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMeleeWeapon;
                 @MeleeWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMeleeWeapon;
+                @WeaponWheelButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheelButton;
+                @WeaponWheelButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheelButton;
+                @WeaponWheelButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheelButton;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -405,6 +431,9 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                 @MeleeWeapon.started += instance.OnMeleeWeapon;
                 @MeleeWeapon.performed += instance.OnMeleeWeapon;
                 @MeleeWeapon.canceled += instance.OnMeleeWeapon;
+                @WeaponWheelButton.started += instance.OnWeaponWheelButton;
+                @WeaponWheelButton.performed += instance.OnWeaponWheelButton;
+                @WeaponWheelButton.canceled += instance.OnWeaponWheelButton;
             }
         }
     }
@@ -428,5 +457,6 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         void OnWeapon3(InputAction.CallbackContext context);
         void OnWeapon4(InputAction.CallbackContext context);
         void OnMeleeWeapon(InputAction.CallbackContext context);
+        void OnWeaponWheelButton(InputAction.CallbackContext context);
     }
 }
