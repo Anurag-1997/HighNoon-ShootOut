@@ -1,14 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
 public class WeaponWheelController : MonoBehaviour
 {
-    public Animator anim;
+    public Animator weaponWheelAnim;
+    public Animator animator;
+    public GameObject player;
+    PlayerCombat playerCombat;
     private bool weaponWheelSelected = false;
     public Image selectedItem;
     public Sprite noImage;
-    public static int weaponID;
+    public  static int weaponID;
+    private string currentState;
+   
+
+    const string PLAYER_IDLE_MELEE = "Idle_Melee";
 
     //MyInputActions myInputActions;
 
@@ -20,50 +28,31 @@ public class WeaponWheelController : MonoBehaviour
     //{
     //    myInputActions.Disable();
     //}
-
+    private void Start()
+    {
+        playerCombat = player.GetComponent<PlayerCombat>();
+        animator = player.GetComponent<Animator>();
+    }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             weaponWheelSelected = !weaponWheelSelected;
         }
         if(weaponWheelSelected)
         {
-            anim.SetBool("OpenWeaponWheel", true);
+            weaponWheelAnim.SetBool("OpenWeaponWheel", true);
         }
         else
         {
-            anim.SetBool("OpenWeaponWheel", false);
+            weaponWheelAnim.SetBool("OpenWeaponWheel", false);
         }
 
-        switch (weaponID)
-        {
-            case 0: //nothing is selected
-                selectedItem.sprite = noImage;
-                break;
-            case 1: //Melee Weapon
-                Debug.Log("Melee Weapon");
-                break;
-            case 2: //Pistol
-                Debug.Log("Pistol");
-                break;
-            case 3: //SMG 1
-                Debug.Log("SMG 1");
-                break;
-            case 4: //SMG 2
-                Debug.Log("SMG 2");
-                break;
-            case 5: //ShotGun
-                Debug.Log("ShotGun");
-                break;
-            case 6: //Rocket Launcher
-                Debug.Log("Rocket Launcher");
-                break;
-            case 7: //Grenede
-                Debug.Log("Grenede");
-                break;
-        }
+        
+        
     }
+   
 
     //private void WeaponWheelButton_started(InputAction.CallbackContext obj)
     //{

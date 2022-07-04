@@ -12,6 +12,8 @@ public class PlayerCombat : MonoBehaviour
     MyInputActions myInputActions;
     Rigidbody2D rb2d;
     NewPlayerController newPlayerCont;
+    //public GameObject weaponWheelPanel;
+    WeaponWheelController weaponWheelController;
     public PhotonView pview;
     [SerializeField] LayerMask playerLayer;
     Collider2D[] hitEnemies;
@@ -50,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         rb2d = GetComponent<Rigidbody2D>();
         pview = GetComponent<PhotonView>();
+        weaponWheelController = FindObjectOfType<WeaponWheelController>();
         
     }
     private void OnEnable()
@@ -62,9 +65,9 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Update()
     {
-        if(pview.IsMine)
+        if (pview.IsMine)
         {
-            pview.RPC("ChangeAnimationState", RpcTarget.All,currentState);
+            pview.RPC("ChangeAnimationState", RpcTarget.All, currentState);
             hitEnemies = Physics2D.OverlapCircleAll(attackPoint1.position, attackRange, playerLayer.value);
             //hitEnemies2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange, playerLayer.value);
             myInputActions.Player.MeleeWeapon.started += MeleeWeapon_started;
@@ -72,10 +75,41 @@ public class PlayerCombat : MonoBehaviour
             WalkAnim();
             myInputActions.Player.Jump.started += Jump_started;
             myInputActions.Player.Fire.started += Fire_started;
-            
 
+            if(weaponWheelController != null)
+            {
+                switch (WeaponWheelController.weaponID)
+                {
+                    case 0: //nothing is selected
+                        weaponWheelController.selectedItem.sprite = weaponWheelController.noImage;
+                        break;
+                    case 1: //Melee Weapon
+                        ChangeAnimationState(PLAYER_IDLE_MELEE);
+                        Debug.Log("Melee Weapon");
+                        break;
+                    case 2: //Pistol
+                        Debug.Log("Pistol");
+                        break;
+                    case 3: //SMG 1
+                        Debug.Log("SMG 1");
+                        break;
+                    case 4: //SMG 2
+                        Debug.Log("SMG 2");
+                        break;
+                    case 5: //ShotGun
+                        Debug.Log("ShotGun");
+                        break;
+                    case 6: //Rocket Launcher
+                        Debug.Log("Rocket Launcher");
+                        break;
+                    case 7: //Grenede
+                        Debug.Log("Grenede");
+                        break;
+
+                }
+            }
+            
         }
-        
 
     }
 

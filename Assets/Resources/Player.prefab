@@ -333,6 +333,7 @@ MonoBehaviour:
   animator: {fileID: 7593587665813221272}
   meleeSwooshAudioClip: {fileID: 8300000, guid: 351234870b714b8429faa90cb10898b5, type: 3}
   bulletShootAudioClip: {fileID: 8300000, guid: dc5e7f686657b1e448fb4a07c3f60995, type: 3}
+  weaponWheelPanel: {fileID: 0}
   pview: {fileID: 0}
   playerLayer:
     serializedVersion: 2
@@ -455,7 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObservedComponentsFoldoutOpen: 1
   Group: 0
-  prefixField: -1
+  prefixField: 0
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
