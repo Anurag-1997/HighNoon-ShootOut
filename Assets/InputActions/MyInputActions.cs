@@ -107,6 +107,15 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grenede"",
+                    ""type"": ""Button"",
+                    ""id"": ""40906925-974f-443b-906b-e611c269bf09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -193,7 +202,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""Weapon 1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -204,7 +213,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""Weapon 2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -215,7 +224,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""Weapon 3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -226,7 +235,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/4"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""Weapon 4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -237,7 +246,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""MeleeWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -248,8 +257,19 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""WeaponWheelButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3db17987-f2c5-4f7e-a30b-6f48f5ae3b9d"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard/Mouse"",
+                    ""action"": ""Grenede"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -286,6 +306,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         m_Player_Weapon4 = m_Player.FindAction("Weapon 4", throwIfNotFound: true);
         m_Player_MeleeWeapon = m_Player.FindAction("MeleeWeapon", throwIfNotFound: true);
         m_Player_WeaponWheelButton = m_Player.FindAction("WeaponWheelButton", throwIfNotFound: true);
+        m_Player_Grenede = m_Player.FindAction("Grenede", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -354,6 +375,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Weapon4;
     private readonly InputAction m_Player_MeleeWeapon;
     private readonly InputAction m_Player_WeaponWheelButton;
+    private readonly InputAction m_Player_Grenede;
     public struct PlayerActions
     {
         private @MyInputActions m_Wrapper;
@@ -367,6 +389,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         public InputAction @Weapon4 => m_Wrapper.m_Player_Weapon4;
         public InputAction @MeleeWeapon => m_Wrapper.m_Player_MeleeWeapon;
         public InputAction @WeaponWheelButton => m_Wrapper.m_Player_WeaponWheelButton;
+        public InputAction @Grenede => m_Wrapper.m_Player_Grenede;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -403,6 +426,9 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                 @WeaponWheelButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheelButton;
                 @WeaponWheelButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheelButton;
                 @WeaponWheelButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheelButton;
+                @Grenede.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrenede;
+                @Grenede.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrenede;
+                @Grenede.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrenede;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -434,6 +460,9 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                 @WeaponWheelButton.started += instance.OnWeaponWheelButton;
                 @WeaponWheelButton.performed += instance.OnWeaponWheelButton;
                 @WeaponWheelButton.canceled += instance.OnWeaponWheelButton;
+                @Grenede.started += instance.OnGrenede;
+                @Grenede.performed += instance.OnGrenede;
+                @Grenede.canceled += instance.OnGrenede;
             }
         }
     }
@@ -458,5 +487,6 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         void OnWeapon4(InputAction.CallbackContext context);
         void OnMeleeWeapon(InputAction.CallbackContext context);
         void OnWeaponWheelButton(InputAction.CallbackContext context);
+        void OnGrenede(InputAction.CallbackContext context);
     }
 }

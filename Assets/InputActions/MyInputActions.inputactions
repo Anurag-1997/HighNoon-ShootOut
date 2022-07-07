@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Grenede",
+                    "type": "Button",
+                    "id": "40906925-974f-443b-906b-e611c269bf09",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -171,7 +180,7 @@
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard/Mouse",
                     "action": "Weapon 1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -182,7 +191,7 @@
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard/Mouse",
                     "action": "Weapon 2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -193,7 +202,7 @@
                     "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard/Mouse",
                     "action": "Weapon 3",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -204,7 +213,7 @@
                     "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard/Mouse",
                     "action": "Weapon 4",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -215,7 +224,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard/Mouse",
                     "action": "MeleeWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -226,8 +235,19 @@
                     "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard/Mouse",
                     "action": "WeaponWheelButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3db17987-f2c5-4f7e-a30b-6f48f5ae3b9d",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Grenede",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
