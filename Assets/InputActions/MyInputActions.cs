@@ -116,6 +116,15 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseCursor"",
+                    ""type"": ""Value"",
+                    ""id"": ""04ca95fb-10ac-4930-9d0a-906f3fc60d9a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Grenede"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f9b71f9-dc39-4402-84cc-a6bf82bee8a5"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard/Mouse"",
+                    ""action"": ""MouseCursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -307,6 +327,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         m_Player_MeleeWeapon = m_Player.FindAction("MeleeWeapon", throwIfNotFound: true);
         m_Player_WeaponWheelButton = m_Player.FindAction("WeaponWheelButton", throwIfNotFound: true);
         m_Player_Grenede = m_Player.FindAction("Grenede", throwIfNotFound: true);
+        m_Player_MouseCursor = m_Player.FindAction("MouseCursor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -376,6 +397,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MeleeWeapon;
     private readonly InputAction m_Player_WeaponWheelButton;
     private readonly InputAction m_Player_Grenede;
+    private readonly InputAction m_Player_MouseCursor;
     public struct PlayerActions
     {
         private @MyInputActions m_Wrapper;
@@ -390,6 +412,7 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         public InputAction @MeleeWeapon => m_Wrapper.m_Player_MeleeWeapon;
         public InputAction @WeaponWheelButton => m_Wrapper.m_Player_WeaponWheelButton;
         public InputAction @Grenede => m_Wrapper.m_Player_Grenede;
+        public InputAction @MouseCursor => m_Wrapper.m_Player_MouseCursor;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -429,6 +452,9 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                 @Grenede.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrenede;
                 @Grenede.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrenede;
                 @Grenede.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGrenede;
+                @MouseCursor.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseCursor;
+                @MouseCursor.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseCursor;
+                @MouseCursor.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseCursor;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -463,6 +489,9 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
                 @Grenede.started += instance.OnGrenede;
                 @Grenede.performed += instance.OnGrenede;
                 @Grenede.canceled += instance.OnGrenede;
+                @MouseCursor.started += instance.OnMouseCursor;
+                @MouseCursor.performed += instance.OnMouseCursor;
+                @MouseCursor.canceled += instance.OnMouseCursor;
             }
         }
     }
@@ -488,5 +517,6 @@ public partial class @MyInputActions : IInputActionCollection2, IDisposable
         void OnMeleeWeapon(InputAction.CallbackContext context);
         void OnWeaponWheelButton(InputAction.CallbackContext context);
         void OnGrenede(InputAction.CallbackContext context);
+        void OnMouseCursor(InputAction.CallbackContext context);
     }
 }

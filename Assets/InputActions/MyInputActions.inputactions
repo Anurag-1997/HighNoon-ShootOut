@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MouseCursor",
+                    "type": "Value",
+                    "id": "04ca95fb-10ac-4930-9d0a-906f3fc60d9a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -248,6 +257,17 @@
                     "processors": "",
                     "groups": "Keyboard/Mouse",
                     "action": "Grenede",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f9b71f9-dc39-4402-84cc-a6bf82bee8a5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "MouseCursor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

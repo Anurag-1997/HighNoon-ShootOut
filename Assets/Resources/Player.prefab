@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 3408575575155049726}
   - component: {fileID: 8264304625209469512}
   - component: {fileID: 1476566536860052182}
+  - component: {fileID: 3664815149637779953}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -348,6 +349,7 @@ MonoBehaviour:
   currentHealth: 50
   maxHealth: 50
   meleeDamage: 3
+  pistolDamage: 1
   bulletPrefab: {fileID: 5002192549994741803, guid: a6f7cddc34e540e4c8c6dc77301ea23c, type: 3}
 --- !u!82 &7593587665813221264
 AudioSource:
@@ -541,3 +543,20 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &3664815149637779953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593587665813221274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329d49d7370252c4f960ad583da794a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grenadePrefab: {fileID: 5572186667568144685, guid: 64d86c26e63cf41419132679f267a360, type: 3}
+  grenadeThrowPos: {fileID: 799209495}
+  mousePos: {x: 0, y: 0}
+  grenadeThrowForce: 15
+  grenadeSelected: 0
