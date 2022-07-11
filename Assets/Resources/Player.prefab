@@ -335,21 +335,20 @@ MonoBehaviour:
   meleeSwooshAudioClip: {fileID: 8300000, guid: 351234870b714b8429faa90cb10898b5, type: 3}
   bulletShootAudioClip: {fileID: 8300000, guid: dc5e7f686657b1e448fb4a07c3f60995, type: 3}
   pview: {fileID: 0}
+  healthBar1pView: {fileID: 0}
+  healthBar2pView: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  healthBarImage1: {fileID: 0}
-  healthBarImage2: {fileID: 0}
   meleeWeaponSeleceted: 0
   weapon1Selected: 0
   attackPoint1: {fileID: 1505932460}
   shoot_Point: {fileID: 799209495}
   attackRange: 0.5
   bulletSpeed: 10
-  currentHealth: 50
-  maxHealth: 50
+  currentHealth: 100
+  maxHealth: 100
   meleeDamage: 3
-  pistolDamage: 1
   bulletPrefab: {fileID: 5002192549994741803, guid: a6f7cddc34e540e4c8c6dc77301ea23c, type: 3}
 --- !u!82 &7593587665813221264
 AudioSource:

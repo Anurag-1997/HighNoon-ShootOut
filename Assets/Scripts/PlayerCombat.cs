@@ -16,10 +16,12 @@ public class PlayerCombat : MonoBehaviour
     //public GameObject weaponWheelPanel;
     WeaponWheelController weaponWheelController;
     public PhotonView pview;
+    //public PhotonView healthBar1pView;
+    //public PhotonView healthBar2pView;
     [SerializeField] LayerMask playerLayer;
     Collider2D[] hitEnemies;
-    [SerializeField] private Image healthBarImage1;
-    [SerializeField] private Image healthBarImage2;
+    //[SerializeField] public Image healthBarImage1;
+    //[SerializeField] public Image healthBarImage2;
     //Collider2D[] hitEnemies2;
 
 
@@ -29,10 +31,10 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] Transform attackPoint1,shoot_Point;
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] float bulletSpeed = 5f;
-    [SerializeField] public int currentHealth = 50;
-    [SerializeField] int maxHealth = 50;
-    [SerializeField] public int meleeDamage = 3;
-    [SerializeField] public int pistolDamage = 1;
+    [SerializeField] public float currentHealth = 99.9f;
+    [SerializeField] float maxHealth = 100f;
+    [SerializeField] public float meleeDamage = 3f;
+    //[SerializeField] public float pistolDamage = 1f;
     [SerializeField] GameObject bulletPrefab;
     private float animDelay;
     bool isAttacking = false;
@@ -63,8 +65,11 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Start()
     {
-        healthBarImage1 = GameObject.Find("HPBAR Fill 1").GetComponent<Image>();
-        healthBarImage2 = GameObject.Find("HPBAR Fill 2").GetComponent<Image>();
+        //healthBarImage1 = GameObject.Find("HPBAR Fill 1").GetComponent<Image>();
+        //healthBarImage2 = GameObject.Find("HPBAR Fill 2").GetComponent<Image>();
+        //healthBar1pView = healthBarImage1.GetComponent<PhotonView>();
+        //healthBar2pView = healthBarImage2.GetComponent<PhotonView>();
+        
     }
     private void OnEnable()
     {
@@ -96,6 +101,12 @@ public class PlayerCombat : MonoBehaviour
                         Debug.Log("Melee Weapon");
                         break;
                     case 2: //Pistol
+                        meleeWeaponSeleceted = false;
+                        weapon1Selected = true;
+                        if(rb2d.velocity.x==0)
+                        {
+                            ChangeAnimationState(IDLE_PISTOL);
+                        }
                         Debug.Log("Pistol");
                         break;
                     case 3: //SMG 1
@@ -116,7 +127,7 @@ public class PlayerCombat : MonoBehaviour
 
                 }
             }
-            pview.RPC("ChangeAnimationState", RpcTarget.All, currentState);
+            pview.RPC("ChangeAnimationState", RpcTarget.AllBuffered, currentState);
             hitEnemies = Physics2D.OverlapCircleAll(attackPoint1.position, attackRange, playerLayer.value);
             //hitEnemies2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange, playerLayer.value);
             myInputActions.Player.MeleeWeapon.started += MeleeWeapon_started;
@@ -208,9 +219,11 @@ public class PlayerCombat : MonoBehaviour
                         {
                             Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().currentHealth);
                             enemy.GetComponent<PlayerCombat>().TakeDamage(meleeDamage);
+                            //HealthBarUpdate1();
                             enemy.GetComponent<PlayerCombat>().ChangeAnimationState(PLAYER_DAMAGE_MELEE);
                         }
-                    }
+                   }
+                    
                 }
                 foreach (Collider2D enemy in hitEnemies)
                 {
@@ -220,6 +233,7 @@ public class PlayerCombat : MonoBehaviour
                         {
                             Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().currentHealth);
                             enemy.GetComponent<PlayerCombat>().TakeDamage(meleeDamage);
+                            //HealthBarUpdate2();
                             enemy.GetComponent<PlayerCombat>().ChangeAnimationState(PLAYER_DAMAGE_MELEE);
                         }
                     }
@@ -249,46 +263,26 @@ public class PlayerCombat : MonoBehaviour
             
         }
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Debug.Log("Take Damage called");
-        pview.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        pview.RPC("RPC_TakeDamage", RpcTarget.AllBuffered, damage);
         
     }
 
     [PunRPC]
-    void RPC_TakeDamage(int damage)
+    void RPC_TakeDamage(float damage)
     {
+       if(pview.IsMine)
+       {
+            currentHealth -= damage;
+            Debug.Log("Current health :  " + currentHealth);
+       }
        
-       
-        currentHealth -= damage;
-        Debug.Log("Current health :  " + currentHealth);
-        HealthBarUpdate();
-        
-            
-        
-        
     }
 
-    public void HealthBarUpdate()
-    {
-        pview.RPC("RPC_HealthBarUpdate", RpcTarget.All);
-    }
+   
 
-    [PunRPC]
-    private void RPC_HealthBarUpdate()
-    {
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            healthBarImage1.fillAmount = currentHealth / maxHealth;
-
-        }
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            healthBarImage2.fillAmount = currentHealth / maxHealth;
-
-        }
-    }
 
     [PunRPC]
     private void WalkAnim()

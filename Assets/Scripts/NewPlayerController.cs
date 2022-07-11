@@ -87,7 +87,7 @@ public class NewPlayerController : MonoBehaviour
     {
         if(pview.IsMine)
         {
-            pview.RPC("ChangeAnimState", RpcTarget.All, currentState);
+            pview.RPC("ChangeAnimState", RpcTarget.AllBuffered, currentState);
             isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance, groundLayer.value);
             Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
             Move();

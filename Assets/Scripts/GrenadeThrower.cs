@@ -41,7 +41,8 @@ public class GrenadeThrower : MonoBehaviour
         if(grenadeSelected)
         {
             GameObject grenadeObj = Instantiate(grenadePrefab, grenadeThrowPos.transform.position, transform.rotation);
-            grenadeObj.GetComponent<Rigidbody2D>().AddForce(mouseDir.normalized * grenadeThrowForce, ForceMode2D.Impulse);
+            //grenadeObj.GetComponent<Rigidbody2D>().AddForce(mouseDir.normalized * grenadeThrowForce, ForceMode2D.Impulse);
+            grenadeObj.GetComponent<Rigidbody2D>().velocity = mouseDir.normalized * grenadeThrowForce;
         }
     }
 

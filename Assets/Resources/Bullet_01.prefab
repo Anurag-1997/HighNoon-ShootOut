@@ -161,7 +161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ac4a6d35383474dacb441f5ac54761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pview: {fileID: 8177157011281105946}
+  photonView: {fileID: 0}
+  healthBar1pView: {fileID: 0}
+  healthBar2pView: {fileID: 0}
+  healthBar1: {fileID: 0}
+  healthBar2: {fileID: 0}
   bulletDamage: 1
 --- !u!70 &8152081306001999356
 CapsuleCollider2D:
