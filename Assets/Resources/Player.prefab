@@ -335,8 +335,6 @@ MonoBehaviour:
   meleeSwooshAudioClip: {fileID: 8300000, guid: 351234870b714b8429faa90cb10898b5, type: 3}
   bulletShootAudioClip: {fileID: 8300000, guid: dc5e7f686657b1e448fb4a07c3f60995, type: 3}
   pview: {fileID: 0}
-  healthBar1pView: {fileID: 0}
-  healthBar2pView: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64

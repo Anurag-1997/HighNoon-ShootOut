@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] float bulletSpeed = 5f;
     [SerializeField] public float currentHealth = 99.9f;
-    [SerializeField] float maxHealth = 100f;
+    [SerializeField] public float maxHealth = 100f;
     [SerializeField] public float meleeDamage = 3f;
     //[SerializeField] public float pistolDamage = 1f;
     [SerializeField] GameObject bulletPrefab;

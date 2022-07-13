@@ -162,10 +162,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photonView: {fileID: 0}
-  healthBar1pView: {fileID: 0}
-  healthBar2pView: {fileID: 0}
-  healthBar1: {fileID: 0}
-  healthBar2: {fileID: 0}
   bulletDamage: 1
 --- !u!70 &8152081306001999356
 CapsuleCollider2D:

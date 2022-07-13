@@ -17,11 +17,13 @@ public class SpawnPlayer : MonoBehaviourPunCallbacks
         {
             randomPos1 = new Vector2(Random.Range(minX1, maxX1), posY);
             PhotonNetwork.Instantiate(playerPrefab.name, randomPos1, Quaternion.identity);
+            
         }
         if(PhotonNetwork.LocalPlayer.ActorNumber==2)
         {
             randomPos2 = new Vector2(Random.Range(minX2, maxX2), posY);
             PhotonNetwork.Instantiate(playerPrefab.name, randomPos2, Quaternion.identity);
+           
         }
 
 
