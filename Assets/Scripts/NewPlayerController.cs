@@ -13,6 +13,8 @@ public class NewPlayerController : MonoBehaviour
     PlayerCombat playerCombat;
     [SerializeField] LayerMask groundLayer;
     public PhotonView pview;
+    [SerializeField] public Color bluePlayer;
+    [SerializeField] public Color OrangePlayer;
 
     [SerializeField] float moveSpeed = 1f,jumpForce=1f;
     [SerializeField] private bool isGrounded = false;
@@ -87,6 +89,7 @@ public class NewPlayerController : MonoBehaviour
     {
         if(pview.IsMine)
         {
+            //this.gameObject.GetComponent<MeshRenderer>().material.color = bluePlayer;
             pview.RPC("ChangeAnimState", RpcTarget.AllBuffered, currentState);
             isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance, groundLayer.value);
             Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);

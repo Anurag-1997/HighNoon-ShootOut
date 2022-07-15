@@ -57,6 +57,7 @@ MonoBehaviour:
   - DestroyBullet
   - RPC_HealthBarUpdate1
   - RPC_HealthBarUpdate2
+  - RPC_PlayerColor
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

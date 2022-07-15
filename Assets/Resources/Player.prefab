@@ -314,6 +314,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   pview: {fileID: 0}
+  bluePlayer: {r: 0, g: 0.8178544, b: 1, a: 1}
+  OrangePlayer: {r: 1, g: 0.6924793, b: 0, a: 1}
   moveSpeed: 4
   jumpForce: 10
   isGrounded: 0
