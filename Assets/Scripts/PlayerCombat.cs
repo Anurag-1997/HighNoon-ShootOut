@@ -34,6 +34,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] public float currentHealth = 99.9f;
     [SerializeField] public float maxHealth = 100f;
     [SerializeField] public float meleeDamage = 3f;
+    [SerializeField] public float bulletDamage = 1f;
     //[SerializeField] public float pistolDamage = 1f;
     [SerializeField] GameObject bulletPrefab;
     private float animDelay;
@@ -127,7 +128,7 @@ public class PlayerCombat : MonoBehaviour
 
                 }
             }
-            pview.RPC("ChangeAnimationState", RpcTarget.AllBuffered, currentState);
+            pview.RPC("ChangeAnimationState", RpcTarget.All, currentState);
             hitEnemies = Physics2D.OverlapCircleAll(attackPoint1.position, attackRange, playerLayer.value);
             //hitEnemies2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange, playerLayer.value);
             myInputActions.Player.MeleeWeapon.started += MeleeWeapon_started;
@@ -139,6 +140,7 @@ public class PlayerCombat : MonoBehaviour
             
             
         }
+        
 
     }
 
@@ -218,7 +220,7 @@ public class PlayerCombat : MonoBehaviour
                         if (enemy.transform.root != transform)
                         {
                             Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().currentHealth);
-                            enemy.GetComponent<PlayerCombat>().TakeDamage(meleeDamage);
+                            //enemy.GetComponent<PlayerCombat>().TakeDamage(meleeDamage);
                             //HealthBarUpdate1();
                             enemy.GetComponent<PlayerCombat>().ChangeAnimationState(PLAYER_DAMAGE_MELEE);
                         }
@@ -232,7 +234,7 @@ public class PlayerCombat : MonoBehaviour
                         if (enemy.transform.root != transform)
                         {
                             Debug.Log("Health : " + enemy.GetComponent<PlayerCombat>().currentHealth);
-                            enemy.GetComponent<PlayerCombat>().TakeDamage(meleeDamage);
+                            //enemy.GetComponent<PlayerCombat>().TakeDamage(meleeDamage);
                             //HealthBarUpdate2();
                             enemy.GetComponent<PlayerCombat>().ChangeAnimationState(PLAYER_DAMAGE_MELEE);
                         }
@@ -263,23 +265,13 @@ public class PlayerCombat : MonoBehaviour
             
         }
     }
-    public void TakeDamage(float damage)
-    {
-        Debug.Log("Take Damage called");
-        pview.RPC("RPC_TakeDamage", RpcTarget.AllBuffered, damage);
-        
-    }
 
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    public void RPC_DamageTaken(float damage)
     {
-       if(pview.IsMine)
-       {
-            currentHealth -= damage;
-            Debug.Log("Current health :  " + currentHealth);
-       }
-       
+        this.currentHealth -= damage;
     }
+   
 
    
 

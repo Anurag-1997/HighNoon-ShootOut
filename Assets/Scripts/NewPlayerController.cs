@@ -13,14 +13,20 @@ public class NewPlayerController : MonoBehaviour
     PlayerCombat playerCombat;
     [SerializeField] LayerMask groundLayer;
     public PhotonView pview;
-    [SerializeField] public Color bluePlayer;
-    [SerializeField] public Color OrangePlayer;
+    //[SerializeField] public Color bluePlayer;
+    //[SerializeField] public Color OrangePlayer;
+    SpawnPlayer spawnPlayer;
+    //[SerializeField] Material bluePlayerMat;
+   // [SerializeField] Material orangePlayerMat;
+    public Material[] materials;
 
     [SerializeField] float moveSpeed = 1f,jumpForce=1f;
     [SerializeField] private bool isGrounded = false;
     //[SerializeField] bool jumpPressed = false;
     [SerializeField] private Transform feetPositon;
     [SerializeField] private float rayDistance;
+    string materialIdentifier;
+
     private float animDelay;
     Vector2 moveVector;
 
@@ -36,6 +42,7 @@ public class NewPlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         playerCombat = GetComponent<PlayerCombat>();
         pview = GetComponent<PhotonView>();
+        spawnPlayer = FindObjectOfType<SpawnPlayer>();
     }
     private void OnEnable()
     {
@@ -87,18 +94,41 @@ public class NewPlayerController : MonoBehaviour
     
     private void Update()
     {
-        if(pview.IsMine)
+        if (pview.IsMine)
         {
+
             //this.gameObject.GetComponent<MeshRenderer>().material.color = bluePlayer;
-            pview.RPC("ChangeAnimState", RpcTarget.AllBuffered, currentState);
+            pview.RPC("ChangeAnimState", RpcTarget.All, currentState);
             isGrounded = Physics2D.Raycast(feetPositon.position, Vector2.down, rayDistance, groundLayer.value);
             Debug.DrawRay(feetPositon.position, Vector2.down * rayDistance, Color.white);
             Move();
             m_Actions.Player.Jump.started += Jump_started;
+
             
 
-
         }
+        pview.RPC("AssignColorStrings", RpcTarget.All);
+        pview.RPC("ChangeMaterials", RpcTarget.All, materialIdentifier);
+        MatAssignFunction();
+
+
+
+
+
+
+    }
+
+    public void MatAssignFunction()
+    {
+        if (materialIdentifier == "Blue")
+        {
+            spawnPlayer.player1Temp.GetComponent<MeshRenderer>().material = materials[0];
+        }
+        if (materialIdentifier == "Orange")
+        {
+            spawnPlayer.player2Temp.GetComponent<MeshRenderer>().material = materials[1];
+        }
+        
     }
 
     private void Jump_started(InputAction.CallbackContext context)
@@ -117,4 +147,25 @@ public class NewPlayerController : MonoBehaviour
 
         }
     }
+    [PunRPC]
+    public void AssignColorStrings()
+    {
+        if(PhotonNetwork.LocalPlayer.ActorNumber==1)
+        {
+            materialIdentifier = "Blue";
+        } 
+        if(PhotonNetwork.LocalPlayer.ActorNumber==2)
+        {
+            materialIdentifier = "Orange";
+        }
+    
+    }
+
+    [PunRPC]
+    public void ChangeMaterials(string material)
+    {
+        materialIdentifier = material;
+    }
+    
+    
 }

@@ -58,6 +58,10 @@ MonoBehaviour:
   - RPC_HealthBarUpdate1
   - RPC_HealthBarUpdate2
   - RPC_PlayerColor
+  - RPC_PlayerColors
+  - ChangeMaterials
+  - AssignColorStrings
+  - RPC_DamageTaken
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

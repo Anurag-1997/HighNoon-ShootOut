@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6505031}
   - component: {fileID: 6505030}
-  - component: {fileID: 6505032}
   m_Layer: 0
   m_Name: PlayerSpawner
   m_TagString: Untagged
@@ -154,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7593587665813221274, guid: 38bb7588b8f30294da2ce9642cbea9f5, type: 3}
-  spawnPView: {fileID: 6505032}
   minX1: -15.28
   maxX1: -8.32
   minX2: 7.28
@@ -164,6 +162,8 @@ MonoBehaviour:
   orangePlayerMat: {fileID: 2100000, guid: 98c8ffe1f89819f46bfaec814c29dd36, type: 2}
   blueColor: {r: 0, g: 0.8428993, b: 1, a: 1}
   orangeColor: {r: 1, g: 0.47482994, b: 0, a: 1}
+  player1Temp: {fileID: 0}
+  player2Temp: {fileID: 0}
 --- !u!4 &6505031
 Transform:
   m_ObjectHideFlags: 0
@@ -179,28 +179,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6505032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6505029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 4
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &42300014
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,6 +796,7 @@ GameObject:
   - component: {fileID: 288013372}
   - component: {fileID: 288013371}
   - component: {fileID: 288013375}
+  - component: {fileID: 288013376}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -925,7 +904,29 @@ MonoBehaviour:
   healthBarImage1: {fileID: 196117314}
   healthBarImage2: {fileID: 543267563}
   player: {fileID: 7593587665813221274, guid: 38bb7588b8f30294da2ce9642cbea9f5, type: 3}
-  pView: {fileID: 0}
+  pView: {fileID: 288013376}
+--- !u!114 &288013376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288013370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &344027753
 GameObject:
   m_ObjectHideFlags: 0

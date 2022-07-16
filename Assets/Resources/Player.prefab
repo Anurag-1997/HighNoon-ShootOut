@@ -314,8 +314,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   pview: {fileID: 0}
-  bluePlayer: {r: 0, g: 0.8178544, b: 1, a: 1}
-  OrangePlayer: {r: 1, g: 0.6924793, b: 0, a: 1}
+  materials:
+  - {fileID: 2100000, guid: be9134e36830a694bb69e3040b906f32, type: 2}
+  - {fileID: 2100000, guid: 98c8ffe1f89819f46bfaec814c29dd36, type: 2}
   moveSpeed: 4
   jumpForce: 10
   isGrounded: 0
@@ -349,6 +350,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 100
   meleeDamage: 3
+  bulletDamage: 3
   bulletPrefab: {fileID: 5002192549994741803, guid: a6f7cddc34e540e4c8c6dc77301ea23c, type: 3}
 --- !u!82 &7593587665813221264
 AudioSource:
@@ -539,7 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
+  m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &3664815149637779953

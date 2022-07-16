@@ -41,7 +41,7 @@ public class Bullet_01 : MonoBehaviour
         }
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerCombat>().TakeDamage(bulletDamage);
+            collision.gameObject.GetPhotonView().RPC("RPC_DamageTaken", RpcTarget.All, bulletDamage);
            
             //calling collision object's player combat script's takedamage function for decrementing health
             //on collision
@@ -57,24 +57,8 @@ public class Bullet_01 : MonoBehaviour
 
     }
 
-    //[PunRPC]
-    //public void DestroyBullet()
-    //{
-    //    Destroy(this.gameObject);
-    //}
+    
 
-    //[PunRPC]
-    //void RPC_TakeDamage1(int damage)
-    //{
-    //    if (!pview.IsMine)
-    //    {
-    //        return;
-    //    }
-    //    currentHealth -= damage;
-    //}
-    //public void TakeDamage1(int damage)
-    //{
-    //    pview.RPC("RPC_TakeDamage1", RpcTarget.All, bulletDamage);
-    //}
+    
 
 }
