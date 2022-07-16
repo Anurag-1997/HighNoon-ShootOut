@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Spine;
+using Photon.Realtime;
+//using Spine;
 
-public class SpawnPlayer : MonoBehaviourPunCallbacks
+public class SpawnPlayer : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
     //[SerializeField] PhotonView spawnPView;
@@ -15,13 +16,19 @@ public class SpawnPlayer : MonoBehaviourPunCallbacks
     [SerializeField] Color orangeColor;
     [HideInInspector] public GameObject player1Temp;
     [HideInInspector] public GameObject player2Temp;
+    [SerializeField] public List<GameObject> playerList = new List<GameObject>();
+    public static SpawnPlayer instance;
 
     Vector2 randomPos1, randomPos2;
+    private void Awake()
+    {
+        instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
         //print(PhotonNetwork.LocalPlayer.ActorNumber);
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 1 )
         {
             randomPos1 = new Vector2(Random.Range(minX1, maxX1), posY);
             player1Temp = PhotonNetwork.Instantiate(playerPrefab.name, randomPos1, Quaternion.identity);
@@ -50,11 +57,13 @@ public class SpawnPlayer : MonoBehaviourPunCallbacks
 
 
     }
-
+    
+    
     // Update is called once per frame
     void Update()
     {
         
 
     }
+   
 }   

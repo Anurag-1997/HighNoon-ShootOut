@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public class NewPlayerController : MonoBehaviour
+public class NewPlayerController : MonoBehaviour,IPunInstantiateMagicCallback
 {
     MyInputActions m_Actions;
     NewPlayerController newPlayercont;
@@ -15,7 +15,7 @@ public class NewPlayerController : MonoBehaviour
     public PhotonView pview;
     //[SerializeField] public Color bluePlayer;
     //[SerializeField] public Color OrangePlayer;
-    SpawnPlayer spawnPlayer;
+    
     //[SerializeField] Material bluePlayerMat;
    // [SerializeField] Material orangePlayerMat;
     public Material[] materials;
@@ -42,7 +42,7 @@ public class NewPlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         playerCombat = GetComponent<PlayerCombat>();
         pview = GetComponent<PhotonView>();
-        spawnPlayer = FindObjectOfType<SpawnPlayer>();
+        //spawnPlayer = FindObjectOfType<SpawnPlayer>();
     }
     private void OnEnable()
     {
@@ -91,7 +91,12 @@ public class NewPlayerController : MonoBehaviour
         
         
     }
-    
+    void IPunInstantiateMagicCallback.OnPhotonInstantiate(Photon.Pun.PhotonMessageInfo info)
+    {
+        SpawnPlayer.instance.playerList.Add(this.gameObject);
+       
+    }
+
     private void Update()
     {
         if (pview.IsMine)
@@ -120,15 +125,16 @@ public class NewPlayerController : MonoBehaviour
 
     public void MatAssignFunction()
     {
+        
         if (materialIdentifier == "Blue")
         {
-            spawnPlayer.player1Temp.GetComponent<MeshRenderer>().material = materials[0];
+            SpawnPlayer.instance.playerList[0].gameObject.GetComponent<MeshRenderer>().material = materials[0];
         }
         if (materialIdentifier == "Orange")
         {
-            spawnPlayer.player2Temp.GetComponent<MeshRenderer>().material = materials[1];
+            SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = materials[1];
         }
-        
+
     }
 
     private void Jump_started(InputAction.CallbackContext context)
