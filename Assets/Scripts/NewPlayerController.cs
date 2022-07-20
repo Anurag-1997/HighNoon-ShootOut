@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
+using Spine.Unity;
 
-public class NewPlayerController : MonoBehaviour,IPunInstantiateMagicCallback
+public class NewPlayerController : MonoBehaviourPun,IPunInstantiateMagicCallback
 {
     MyInputActions m_Actions;
     NewPlayerController newPlayercont;
@@ -15,10 +16,12 @@ public class NewPlayerController : MonoBehaviour,IPunInstantiateMagicCallback
     public PhotonView pview;
     //[SerializeField] public Color bluePlayer;
     //[SerializeField] public Color OrangePlayer;
-    
-    //[SerializeField] Material bluePlayerMat;
-   // [SerializeField] Material orangePlayerMat;
-    public Material[] materials;
+
+    [SerializeField] Material bluePlayerMat;
+    [SerializeField] Material orangePlayerMat;
+    //public Material[] materials;
+    [SerializeField] public Shader tintShader;
+    public MeshRenderer meshRenderer;
 
     [SerializeField] float moveSpeed = 1f,jumpForce=1f;
     [SerializeField] private bool isGrounded = false;
@@ -43,6 +46,13 @@ public class NewPlayerController : MonoBehaviour,IPunInstantiateMagicCallback
         playerCombat = GetComponent<PlayerCombat>();
         pview = GetComponent<PhotonView>();
         //spawnPlayer = FindObjectOfType<SpawnPlayer>();
+    }
+    private void Start()
+    {
+        
+        //meshRenderer.material.SetColor(Shader.PropertyToID("_Color"), Color.green);
+        //Invoke("MatUpdate", 4f);
+        
     }
     private void OnEnable()
     {
@@ -94,7 +104,8 @@ public class NewPlayerController : MonoBehaviour,IPunInstantiateMagicCallback
     void IPunInstantiateMagicCallback.OnPhotonInstantiate(Photon.Pun.PhotonMessageInfo info)
     {
         SpawnPlayer.instance.playerList.Add(this.gameObject);
-       
+
+
     }
 
     private void Update()
@@ -109,69 +120,115 @@ public class NewPlayerController : MonoBehaviour,IPunInstantiateMagicCallback
             Move();
             m_Actions.Player.Jump.started += Jump_started;
 
+
+
+
+        }
+        this.GetComponent<SkeletonMecanim>().OnMeshAndMaterialsUpdated += NewPlayerController_OnMeshAndMaterialsUpdated;
+        
+        //pview.RPC("AssignColorStrings", RpcTarget.All);
+        //pview.RPC("ChangeMaterials", RpcTarget.All, materialIdentifier);
+        //MatAssignFunction();
+
+
+
+
+
+
+    }
+
+    private void NewPlayerController_OnMeshAndMaterialsUpdated(SkeletonRenderer skeletonRenderer)
+    {
+        for (int i = 0; i < SpawnPlayer.instance.playerList.Count; i++)
+        {
+            if(SpawnPlayer.instance.playerList.Count ==1)
+            {
+                if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+                {
+                    SpawnPlayer.instance.playerList[0].gameObject.GetComponent<MeshRenderer>().material = bluePlayerMat;
+                    //SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = orangePlayerMat;
+
+                }
+            }
+            if (SpawnPlayer.instance.playerList.Count ==2)
+            {
+                if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+                {
+                    SpawnPlayer.instance.playerList[0].gameObject.GetComponent<MeshRenderer>().material = bluePlayerMat;
+                    SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = orangePlayerMat;
+                }
+                if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+                {
+                    SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = bluePlayerMat;
+                    SpawnPlayer.instance.playerList[0].gameObject.GetComponent<MeshRenderer>().material = orangePlayerMat;
+                }
+            }
+            
             
 
         }
-        pview.RPC("AssignColorStrings", RpcTarget.All);
-        pview.RPC("ChangeMaterials", RpcTarget.All, materialIdentifier);
-        MatAssignFunction();
-
-
-
-
-
-
     }
 
-    public void MatAssignFunction()
-    {
-        
-        if (materialIdentifier == "Blue")
-        {
-            SpawnPlayer.instance.playerList[0].gameObject.GetComponent<MeshRenderer>().material = materials[0];
-        }
-        if (materialIdentifier == "Orange")
-        {
-            SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = materials[1];
-        }
+    //private void MatUpdate()
+    //{
+    //    //Debug.LogError("Flag : ");
+    //    if (PhotonNetwork.IsMasterClient)
+    //    {
+    //        Debug.Log("Mat Update called");
+    //        this.GetComponent<MeshRenderer>().materials[0] = bluePlayerMat;
+    //    }
+    //    //meshRenderer.materials[0] = bluePlayerMat;
+    //}
 
-    }
+
 
     private void Jump_started(InputAction.CallbackContext context)
     {
-        if (isGrounded )
+        if (isGrounded)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
 
-            if(!playerCombat.meleeWeaponSeleceted && !playerCombat.weapon1Selected)
+            if (!playerCombat.meleeWeaponSeleceted && !playerCombat.weapon1Selected)
             {
                 ChangeAnimState(PLAYER_JUMP);
             }
 
-            
+
 
 
         }
     }
-    [PunRPC]
-    public void AssignColorStrings()
-    {
-        if(PhotonNetwork.LocalPlayer.ActorNumber==1)
-        {
-            materialIdentifier = "Blue";
-        } 
-        if(PhotonNetwork.LocalPlayer.ActorNumber==2)
-        {
-            materialIdentifier = "Orange";
-        }
-    
-    }
+    //[PunRPC]
+    //public void AssignColorStrings()
+    //{
+    //    for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+    //    {
+    //        if (PhotonNetwork.PlayerList[i] == PhotonNetwork.PlayerList[0])
+    //        {
+    //            materialIdentifier = "Blue";
+    //        }
+    //        if (PhotonNetwork.PlayerList[i] == PhotonNetwork.PlayerList[1])
+    //        {
+    //            materialIdentifier = "Orange";
+    //        }
+    //    }
+    //    if (materialIdentifier == "Blue")
+    //    {
 
-    [PunRPC]
-    public void ChangeMaterials(string material)
-    {
-        materialIdentifier = material;
-    }
-    
-    
+    //    }
+    //    if (materialIdentifier == "Orange")
+    //    {
+
+    //    }
+
+
+    //}
+
+    //[PunRPC]
+    //public void ChangeMaterials(string material)
+    //{
+    //    materialIdentifier = material;
+    //}
+
+
 }

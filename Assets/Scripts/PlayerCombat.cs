@@ -20,8 +20,8 @@ public class PlayerCombat : MonoBehaviour
     //public PhotonView healthBar2pView;
     [SerializeField] LayerMask playerLayer;
     Collider2D[] hitEnemies;
-    //[SerializeField] public Image healthBarImage1;
-    //[SerializeField] public Image healthBarImage2;
+    [SerializeField] public Image healthBarImage1;
+    [SerializeField] public Image healthBarImage2;
     //Collider2D[] hitEnemies2;
 
 
@@ -265,11 +265,31 @@ public class PlayerCombat : MonoBehaviour
             
         }
     }
+    public void TakeDamage(float damage)
+    {
+        pview.RPC("RPC_DamageTaken", RpcTarget.All, damage);
+    }
 
     [PunRPC]
     public void RPC_DamageTaken(float damage)
     {
-        this.currentHealth -= damage;
+        //if (!pview.IsMine)
+        //    return;
+        if(PhotonNetwork.LocalPlayer.ActorNumber ==1 )
+        {
+            currentHealth -= damage;
+            healthBarImage1.fillAmount = currentHealth / maxHealth;
+        }
+        if(PhotonNetwork.LocalPlayer.ActorNumber ==2 )
+        {
+            currentHealth -= damage;
+            healthBarImage2.fillAmount = currentHealth / maxHealth;
+        }
+        
+        if(currentHealth <= 0)
+        {
+            //DIE
+        }
     }
    
 
@@ -313,4 +333,5 @@ public class PlayerCombat : MonoBehaviour
     {
         isAttacking = false;
     }
+    
 }
