@@ -807,6 +807,8 @@ MonoBehaviour:
     m_Bits: 64
   healthBarImage1: {fileID: 196117314}
   healthBarImage2: {fileID: 543267563}
+  healthBarPanel1: {fileID: 1109846699}
+  healthBarPanel2: {fileID: 820452426}
   meleeWeaponSeleceted: 0
   weapon1Selected: 0
   attackPoint1: {fileID: 1505932460}

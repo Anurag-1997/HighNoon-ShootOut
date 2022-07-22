@@ -10,7 +10,7 @@ public class Bullet_01 : MonoBehaviour
     
     //public Image healthBar1;
     //public Image healthBar2;
-    public float currentHealth;
+    
     public float bulletDamage = 1f;
 
     private void Awake()
@@ -30,19 +30,15 @@ public class Bullet_01 : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1")
+        if(collision.gameObject.tag == "Player1")
         {
-
             collision.gameObject.GetComponent<PlayerCombat>().TakeDamage(bulletDamage);
-            Debug.Log("Current Health player 1= " + this.gameObject.GetComponent<PlayerCombat>().currentHealth.ToString());
-            PhotonNetwork.Destroy(this.gameObject);
+            Debug.Log("Bullet hit the player 1");
         }
-        if (collision.gameObject.tag == "Player2")
+        if(collision.gameObject.tag == "Player2")
         {
-
             collision.gameObject.GetComponent<PlayerCombat>().TakeDamage(bulletDamage);
-            Debug.Log("Current Health player 2 = " + this.gameObject.GetComponent<PlayerCombat>().currentHealth.ToString());
-            PhotonNetwork.Destroy(this.gameObject);
+            Debug.Log("Bullet hit player 2");
         }
 
     }

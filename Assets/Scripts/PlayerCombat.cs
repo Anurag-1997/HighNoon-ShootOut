@@ -22,7 +22,10 @@ public class PlayerCombat : MonoBehaviour
     Collider2D[] hitEnemies;
     [SerializeField] public Image healthBarImage1;
     [SerializeField] public Image healthBarImage2;
+    [SerializeField] public GameObject healthBarPanel1;
+    [SerializeField] public GameObject healthBarPanel2;
     //Collider2D[] hitEnemies2;
+    //[SerializeField] GameObject UICanvas;
 
 
 
@@ -66,10 +69,6 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Start()
     {
-        //healthBarImage1 = GameObject.Find("HPBAR Fill 1").GetComponent<Image>();
-        //healthBarImage2 = GameObject.Find("HPBAR Fill 2").GetComponent<Image>();
-        //healthBar1pView = healthBarImage1.GetComponent<PhotonView>();
-        //healthBar2pView = healthBarImage2.GetComponent<PhotonView>();
         
     }
     private void OnEnable()
@@ -143,6 +142,7 @@ public class PlayerCombat : MonoBehaviour
         
 
     }
+   
 
     private void Weapon1_started(InputAction.CallbackContext obj)
     {
@@ -273,16 +273,18 @@ public class PlayerCombat : MonoBehaviour
     [PunRPC]
     public void RPC_DamageTaken(float damage)
     {
-        //if (!pview.IsMine)
-        //    return;
-        if(PhotonNetwork.LocalPlayer.ActorNumber ==1 )
+        if (!pview.IsMine)
         {
-            currentHealth -= damage;
+            return;
+        }
+
+        currentHealth -= damage;
+        if(this.gameObject.tag == "Player1")
+        {
             healthBarImage1.fillAmount = currentHealth / maxHealth;
         }
-        if(PhotonNetwork.LocalPlayer.ActorNumber ==2 )
+        if(this.gameObject.tag == "Player2")
         {
-            currentHealth -= damage;
             healthBarImage2.fillAmount = currentHealth / maxHealth;
         }
         

@@ -83,7 +83,7 @@ public class SpawnPlayer : MonoBehaviour
     void Init()
     {
         Gobj = PhotonNetwork.Instantiate(playerPrefab.name, randomPos1, Quaternion.identity);
-        //Invoke("Temp2", 5f);
+        Invoke("Temp2", 5f);
         //Invoke("Temp", 6f);
 
     }
@@ -92,7 +92,6 @@ public class SpawnPlayer : MonoBehaviour
         Debug.Log("INVOKE TEMP CALLED NOW!!!");
         for (int i = 0; i < playerList.Count; i++)
         {
-            
             if (PhotonNetwork.LocalPlayer.ActorNumber ==1)
             {
                 Debug.Log("ACtor number = " + PhotonNetwork.LocalPlayer.ActorNumber);
@@ -112,49 +111,34 @@ public class SpawnPlayer : MonoBehaviour
     }
     public void Temp2()
     {
-        Debug.Log("INVOKE TEMP-2 CALLED NOW!!!");
-        for (int i = 0; i < playerList.Count; i++)
+        Debug.Log("Temp 2 called now ");
+        if (playerList.Count == 1)
         {
-            if(playerList.Count == 1)
+            if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
             {
-                player1Temp = playerList[0].gameObject;
-                tempMat1 = player1Temp.GetComponent<MeshRenderer>().material;
-                tempMat1 = bluePlayerMat;
-                randomPos1 = new Vector2(Random.Range(minX1, maxX1), posY);
-                player1Temp.transform.position = randomPos1;
-               
-            }
-            else if(playerList.Count == 2)
-            {
-                //player 1
-                player1Temp = playerList[0].gameObject;
-                tempMat1 = player1Temp.GetComponent<MeshRenderer>().material;
-                tempMat1 = bluePlayerMat;
-                randomPos1 = new Vector2(Random.Range(minX1, maxX1), posY);
-                player1Temp.transform.position = randomPos1;
-                //player 2
-                player2Temp = playerList[1].gameObject;
-                tempMat2 = player2Temp.GetComponent<MeshRenderer>().material;
-                tempMat2 = orangePlayerMat;
-                randomPos2 = new Vector2(Random.Range(minX2, maxX2), posY);
-                player2Temp.transform.position = randomPos2;
-            }
-                
-            
-            
+                playerList[0].gameObject.tag = "Player1";
+                //SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = orangePlayerMat;
 
+            }
+        }
+        if (playerList.Count == 2)
+        {
+            if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+            {
+                playerList[0].gameObject.tag = "Player1";
+                playerList[1].gameObject.tag = "Player2";
+            }
+
+            if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+            {
+                    playerList[1].gameObject.tag = "Player1";
+                    playerList[0].gameObject.tag = "Player2";
+            }
         }
     }
-    private void Update()
-    {
-        //skeletonMecanim.OnMeshAndMaterialsUpdated += SkeletonMecanim_OnMeshAndMaterialsUpdated;
-        
-    }
+    
 
-    private void SkeletonMecanim_OnMeshAndMaterialsUpdated(SkeletonRenderer skeletonRenderer)
-    {
-        
-    }
+    
 }
     
     
