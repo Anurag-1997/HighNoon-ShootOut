@@ -33,12 +33,12 @@ public class Bullet_01 : MonoBehaviour
         if(collision.gameObject.tag == "Player1")
         {
             collision.gameObject.GetComponent<PlayerCombat>().TakeDamage(bulletDamage);
-            Debug.Log("Bullet hit the player 1");
+            Debug.Log("Bullet hit the player 1 , P1Health = "+collision.gameObject.GetComponent<PlayerCombat>().currentHealth);
         }
         if(collision.gameObject.tag == "Player2")
         {
             collision.gameObject.GetComponent<PlayerCombat>().TakeDamage(bulletDamage);
-            Debug.Log("Bullet hit player 2");
+            Debug.Log("Bullet hit player 2 , P2Health" + collision.gameObject.GetComponent<PlayerCombat>().currentHealth);
         }
 
     }

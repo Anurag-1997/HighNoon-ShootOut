@@ -273,21 +273,10 @@ public class PlayerCombat : MonoBehaviour
     [PunRPC]
     public void RPC_DamageTaken(float damage)
     {
-        if (!pview.IsMine)
-        {
-            return;
-        }
+        
 
         currentHealth -= damage;
-        if(this.gameObject.tag == "Player1")
-        {
-            healthBarImage1.fillAmount = currentHealth / maxHealth;
-        }
-        if(this.gameObject.tag == "Player2")
-        {
-            healthBarImage2.fillAmount = currentHealth / maxHealth;
-        }
-        
+       
         if(currentHealth <= 0)
         {
             //DIE
