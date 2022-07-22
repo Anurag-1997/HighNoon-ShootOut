@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] Animator animator;
@@ -26,6 +27,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] public GameObject healthBarPanel2;
     //Collider2D[] hitEnemies2;
     //[SerializeField] GameObject UICanvas;
+    [SerializeField] GameObject bulletPrefab;
+    
 
 
 
@@ -36,10 +39,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] float bulletSpeed = 5f;
     [SerializeField] public float currentHealth = 99.9f;
     [SerializeField] public float maxHealth = 100f;
-    [SerializeField] public float meleeDamage = 3f;
-    [SerializeField] public float bulletDamage = 1f;
+    //[SerializeField] public float meleeDamage = 3f;
+    //[SerializeField] public float bulletDamage = 1f;
     //[SerializeField] public float pistolDamage = 1f;
-    [SerializeField] GameObject bulletPrefab;
     private float animDelay;
     bool isAttacking = false;
 
@@ -273,14 +275,9 @@ public class PlayerCombat : MonoBehaviour
     [PunRPC]
     public void RPC_DamageTaken(float damage)
     {
-        
-
         currentHealth -= damage;
        
-        if(currentHealth <= 0)
-        {
-            //DIE
-        }
+        
     }
    
 
