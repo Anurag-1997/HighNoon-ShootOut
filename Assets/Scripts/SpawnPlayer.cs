@@ -8,6 +8,8 @@ using UnityEngine.Animations;
 using Spine;
 using Spine.Unity;
 using Spine.Collections;
+using UnityEngine.UI;
+using TMPro;
 
 public class SpawnPlayer : MonoBehaviour
 {
@@ -27,9 +29,13 @@ public class SpawnPlayer : MonoBehaviour
     
    
     public static bool spawned = false;
+    public float loadTimer = 6f;
 
     [HideInInspector] public GameObject player1Temp;
     [HideInInspector] public GameObject player2Temp;
+    public GameObject readyPanel;
+    public TMP_Text timerText;
+    public TMP_Text readyText;
     [SerializeField] public List<GameObject> playerList = new List<GameObject>();
     public static SpawnPlayer instance;
     
@@ -38,76 +44,32 @@ public class SpawnPlayer : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        
+        readyPanel.gameObject.SetActive(true);
     }
+    
     // Start is called before the first frame update
     void Start()
     {
         Init();
-        
-        
-      
-        ////print(PhotonNetwork.LocalPlayer.ActorNumber);
-        //if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        //{
-        //    randomPos1 = new Vector2(Random.Range(minX1, maxX1), posY);
-        //    //object[] myCustomInitData = GetInitData();
-        //    GameObject player1Temp = PhotonNetwork.Instantiate(playerPrefab.name, randomPos1, Quaternion.identity);
-
-        //    Debug.Log("Instantiation id of player 1 : " + player1Temp.GetPhotonView().InstantiationId);
-        //    player1Temp.gameObject.tag = "Player1";
-        //    //player1Temp.GetComponent<Renderer>().materials[0].SetColor("_Color", new Color(0f, 1.0f, 0.0f, 1.0f));
-        //    //player1Temp.GetComponent<Renderer>().material.SetColor("_Color", blueColor);
-        //    //Debug.Log(player1Temp.GetComponent<Renderer>().materials[0].GetColor("_Color"));
-        //    //Debug.Log(player1Temp.GetComponent<Renderer>().material.GetColor("_TintColor"));
-        //    //Debug.Log(player1Temp.GetComponent<Renderer>().material.GetColor("Tint Color"));
-
-        //}
-        //if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        //{
-        //    randomPos2 = new Vector2(Random.Range(minX2, maxX2), posY);
-        //    GameObject player2Temp = PhotonNetwork.Instantiate(playerPrefab.name, randomPos2, Quaternion.identity);
-        //    Debug.Log("Instantiation id of player 2 : " + player2Temp.GetPhotonView().InstantiationId);
-        //    player2Temp.gameObject.tag = "Player2";
-        //    //player2Temp.GetComponent<Renderer>().materials[0].SetColor("_Color", orangeColor);
-        //    //player2Temp.GetComponent<Renderer>().material.SetColor("_Color", orangeColor);
-        //    //Debug.Log(player2Temp.GetComponent<Renderer>().materials[0].GetColor("_Color"));
-        //    // GameObject playerTemp1 = PhotonNetwork.Instantiate(playerPrefab.name, randomPos1, Quaternion.identity);
-
-
-        //}
 
 
     }
-    
+    private void Update()
+    {
+        loadTimer -= Time.deltaTime;
+        timerText.text = "Game Starts in : "+ loadTimer.ToString(); 
+        if(loadTimer<=0f)
+        {
+            readyPanel.gameObject.SetActive(false);
+        }
+    }
+
     void Init()
     {
         Gobj = PhotonNetwork.Instantiate(playerPrefab.name, randomPos1, Quaternion.identity);
         Invoke("Temp2", 5f);
         //Invoke("Temp", 6f);
 
-    }
-    public void Temp()
-    {
-        Debug.Log("INVOKE TEMP CALLED NOW!!!");
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            if (PhotonNetwork.LocalPlayer.ActorNumber ==1)
-            {
-                Debug.Log("ACtor number = " + PhotonNetwork.LocalPlayer.ActorNumber);
-                playerList[0].gameObject.GetComponent<MeshRenderer>().material = bluePlayerMat;
-                //playerList[1].gameObject.GetComponent<MeshRenderer>().material = orangePlayerMat;
-
-            }
-            if(PhotonNetwork.LocalPlayer.ActorNumber ==2)
-            {
-                //playerList[1].gameObject.GetComponent<MeshRenderer>().material = bluePlayerMat;
-                //playerList[0].gameObject.GetComponent<MeshRenderer>().materials[0] = orangePlayerMat;
-
-            }
-
-        }
-        
     }
     public void Temp2()
     {
@@ -117,6 +79,7 @@ public class SpawnPlayer : MonoBehaviour
             if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
             {
                 playerList[0].gameObject.tag = "Player1";
+                playerList[0].gameObject.transform.position = new Vector3(Random.Range(minX1, maxX1), posY, 0);
                 //SpawnPlayer.instance.playerList[1].gameObject.GetComponent<MeshRenderer>().material = orangePlayerMat;
 
             }
@@ -127,14 +90,21 @@ public class SpawnPlayer : MonoBehaviour
             {
                 playerList[0].gameObject.tag = "Player1";
                 playerList[1].gameObject.tag = "Player2";
+                playerList[0].gameObject.transform.position = new Vector3(Random.Range(minX1, maxX1), posY, 0);
+                playerList[1].gameObject.transform.position = new Vector3(Random.Range(minX2, minX2), posY, 0);
             }
 
             if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
             {
-                    playerList[1].gameObject.tag = "Player1";
-                    playerList[0].gameObject.tag = "Player2";
+                playerList[1].gameObject.tag = "Player1";
+                playerList[0].gameObject.tag = "Player2";
+                playerList[1].gameObject.transform.position = new Vector3(Random.Range(minX1, maxX1), posY, 0);
+                playerList[0].gameObject.transform.position = new Vector3(Random.Range(minX2, minX2), posY, 0);
             }
         }
+        Debug.Log(playerList[0].GetPhotonView().Owner.NickName);
+        Debug.Log(playerList[1].GetPhotonView().Owner.NickName);
+        
     }
     
 

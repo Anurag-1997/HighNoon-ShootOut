@@ -564,8 +564,10 @@ MonoBehaviour:
   grenadePrefab: {fileID: 5572186667568144685, guid: 64d86c26e63cf41419132679f267a360, type: 3}
   grenadeThrowPos: {fileID: 799209495}
   mousePos: {x: 0, y: 0}
-  grenadeThrowForce: 15
+  grenadeThrowForce: 800
   grenadeSelected: 0
+  pview: {fileID: 0}
+  numberOfGrenades: 3
 --- !u!114 &3988909656324670651
 MonoBehaviour:
   m_ObjectHideFlags: 0
