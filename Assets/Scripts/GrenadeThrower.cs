@@ -13,11 +13,16 @@ public class GrenadeThrower : MonoBehaviour
     public Transform grenadeThrowPos;
     MyInputActions m_Actions;
     public Vector2 mousePos;
-    public float grenadeThrowForce = 1f;
+    public float grenadeThrowForce1 =750f;
+    public float grenadeThrowForce2 =1000f;
+
     public bool grenadeSelected = false;
     Vector2 mouseDir;
     public PhotonView pview;
     public int numberOfGrenades = 3;
+    
+    
+   
     
  
     private void Awake()
@@ -33,16 +38,18 @@ public class GrenadeThrower : MonoBehaviour
     {
         m_Actions.Disable();
     }
+    
     private void Update()
     {
-        if(pview.IsMine)
+        if (pview.IsMine)
         {
             m_Actions.Player.Grenede.started += Grenede_started;
             mousePos = m_Actions.Player.MouseCursor.ReadValue<Vector2>();
-            mouseDir = mousePos - new Vector2(this.grenadeThrowPos.transform.position.x, this.grenadeThrowPos.transform.position.y);
+            mouseDir = mousePos - new Vector2(this.gameObject.GetComponent<GrenadeThrower>().grenadeThrowPos.transform.position.x, this.gameObject.GetComponent<GrenadeThrower>().grenadeThrowPos.transform.position.y);
             m_Actions.Player.Fire.started += Fire_started;
+
         }
-        
+       
 
 
 
@@ -53,23 +60,41 @@ public class GrenadeThrower : MonoBehaviour
     {
         if(grenadeSelected && this.numberOfGrenades>0)
         {
-            GameObject grenadeObj = Instantiate(grenadePrefab, this.grenadeThrowPos.transform.position, transform.rotation);
+            
             //grenadeObj.GetComponent<Rigidbody2D>().AddForce(mouseDir.normalized * grenadeThrowForce, ForceMode2D.Impulse);
-            if(PhotonNetwork.LocalPlayer.ActorNumber ==1 )
+            if (this.gameObject.tag == "Player1" )
             {
-                grenadeObj.GetComponent<Rigidbody2D>().velocity = mouseDir.normalized * grenadeThrowForce*Time.deltaTime;
+                
+                GameObject grenadeObj = PhotonNetwork.Instantiate(grenadePrefab.name, this.grenadeThrowPos.transform.position,Quaternion.identity);
+                grenadeObj.GetComponent<Rigidbody2D>().velocity = mouseDir.normalized * grenadeThrowForce1*Time.deltaTime;
+               
+                
             }
-            if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+            if (this.gameObject.tag == "Player2")
             {
-                grenadeObj.GetComponent<Rigidbody2D>().velocity = new Vector2(-mouseDir.x,mouseDir.y).normalized * grenadeThrowForce*Time.deltaTime;
+                
+                GameObject grenadeObj1 = PhotonNetwork.Instantiate(grenadePrefab.name, this.grenadeThrowPos.transform.position, Quaternion.identity);
+                grenadeObj1.GetComponent<Rigidbody2D>().velocity = new Vector2(-1f*mouseDir.normalized.x,mouseDir.normalized.y).normalized * grenadeThrowForce2*Time.deltaTime;
+               
+                
 
             }
-            this.numberOfGrenades -= 1;
+
+            GrenadeNumber();
         }
     }
 
     private void Grenede_started(InputAction.CallbackContext obj)
     {
         grenadeSelected = !grenadeSelected;
+    }
+    public void GrenadeNumber()
+    {
+        pview.RPC("RPC_GrenadeNumber", RpcTarget.All);
+    }
+    [PunRPC]
+    public void RPC_GrenadeNumber()
+    {
+        this.numberOfGrenades -= 1;
     }
 }

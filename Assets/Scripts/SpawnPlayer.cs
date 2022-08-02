@@ -29,7 +29,7 @@ public class SpawnPlayer : MonoBehaviour
     
    
     public static bool spawned = false;
-    public float loadTimer = 6f;
+    public static float loadTimer = 6f;
 
     [HideInInspector] public GameObject player1Temp;
     [HideInInspector] public GameObject player2Temp;

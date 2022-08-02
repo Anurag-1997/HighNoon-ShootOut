@@ -36,16 +36,33 @@ public class HealthBarScript : MonoBehaviour
             {
                 healthBarImage1.fillAmount = SpawnPlayer.instance.playerList[0].GetComponent<PlayerCombat>().currentHealth / SpawnPlayer.instance.playerList[0].GetComponent<PlayerCombat>().maxHealth;
                 healthBarImage2.fillAmount = SpawnPlayer.instance.playerList[1].GetComponent<PlayerCombat>().currentHealth / SpawnPlayer.instance.playerList[1].GetComponent<PlayerCombat>().maxHealth;
-                nickNameText1.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName;
-                nickNameText2.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName;
-                
+                if (SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName!=null && SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName!=null)
+                {
+                    nickNameText1.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName;
+                    nickNameText2.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName;
+                }
+                if (SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName == null && SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName == null)
+                {
+                    nickNameText1.text = "Player 1";
+                    nickNameText2.text = "Player 2";
+                }
+
+
             }
             if(PhotonNetwork.LocalPlayer.ActorNumber == 2)
             {
                 healthBarImage1.fillAmount = SpawnPlayer.instance.playerList[1].GetComponent<PlayerCombat>().currentHealth / SpawnPlayer.instance.playerList[1].GetComponent<PlayerCombat>().maxHealth;
                 healthBarImage2.fillAmount = SpawnPlayer.instance.playerList[0].GetComponent<PlayerCombat>().currentHealth / SpawnPlayer.instance.playerList[0].GetComponent<PlayerCombat>().maxHealth;
-                nickNameText1.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName;
-                nickNameText2.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName;
+                if (SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName != null && SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName != null)
+                {
+                    nickNameText1.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName;
+                    nickNameText2.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName;
+                }
+                if (SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName == null && SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName == null)
+                {
+                    nickNameText1.text = "Player 2";
+                    nickNameText2.text = "Player 1";
+                }
             }
             
         }

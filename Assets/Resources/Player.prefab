@@ -140,6 +140,7 @@ Transform:
   - {fileID: 7593587664299696382}
   - {fileID: 1505932460}
   - {fileID: 799209495}
+  - {fileID: 8344552736845056488}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -564,7 +565,8 @@ MonoBehaviour:
   grenadePrefab: {fileID: 5572186667568144685, guid: 64d86c26e63cf41419132679f267a360, type: 3}
   grenadeThrowPos: {fileID: 799209495}
   mousePos: {x: 0, y: 0}
-  grenadeThrowForce: 800
+  grenadeThrowForce1: 800
+  grenadeThrowForce2: 1400
   grenadeSelected: 0
   pview: {fileID: 0}
   numberOfGrenades: 3
@@ -599,3 +601,34 @@ MonoBehaviour:
   flipBy180DegreeRotation: 0
   skeletonRenderer: {fileID: 7593587665813221275}
   skeletonGraphic: {fileID: 0}
+--- !u!1 &8578231102336403591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8344552736845056488}
+  m_Layer: 6
+  m_Name: ShootPosition 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8344552736845056488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8578231102336403591}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.79, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7593587665813221279}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -24,13 +24,13 @@ public class GameOverPanelScript : MonoBehaviour
                 if (SpawnPlayer.instance.playerList[0].GetComponent<PlayerCombat>().currentHealth <= 0)
                 {
                     gameOverCanvas.SetActive(true);
-                    gameOverText.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName+"has won";
+                    gameOverText.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName+" has won";
                 }
                 if (SpawnPlayer.instance.playerList[1].GetComponent<PlayerCombat>().currentHealth <= 0)
                 {
                     gameOverCanvas.SetActive(true);
               
-                    gameOverText.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName+"has won";
+                    gameOverText.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName+" has won";
                 }
             }
             if(PhotonNetwork.LocalPlayer.ActorNumber ==2)
@@ -39,13 +39,13 @@ public class GameOverPanelScript : MonoBehaviour
                 {
                     gameOverCanvas.SetActive(true);
                     
-                    gameOverText.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName+"has won";
+                    gameOverText.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName+" has won";
                 }
                 if (SpawnPlayer.instance.playerList[0].GetComponent<PlayerCombat>().currentHealth <= 0)
                 {
                     gameOverCanvas.SetActive(true);
-                    gameOverText.text = "Player 1 has won";
-                    gameOverText.text = SpawnPlayer.instance.playerList[0].GetPhotonView().Owner.NickName+"has won";
+                    
+                    gameOverText.text = SpawnPlayer.instance.playerList[1].GetPhotonView().Owner.NickName+" has won";
                 }
             }
            
